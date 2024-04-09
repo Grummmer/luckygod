@@ -1,0 +1,1 @@
+nuitka --mingw  --standalone --recurse-all --windows-disable-console --recurse-not-to=jinja2 --show-progress --show-memory --plugin-enable=pylint-warnings --plugin-enable=tk-inter --plugin-enable=numpy --windows-icon=main.ico --output-dir=out luckygod.py
