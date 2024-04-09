@@ -1,11 +1,11 @@
 '''
 -*-coding:UTF-8-*-
 环境：python3.6.2_32bit
-程序功能：抽签助手
-
-
+程序功能：幸运之神5.0--抽签助手
+完成日期：2020年12月27日
 本程序由伟大的李一田倾力制作
 '''
+
 '''
 ------------------------------------------------------------------
 |☺幸运之神5.0--抽签助手                                      |-|口|X|
@@ -44,24 +44,23 @@
 ||__________________________________________________|   ----     |
 |________________________________________________________________|
 '''
+
+
 #我也不知道为什么要import这么多插件……
-import random
+import random as 随机模块
 from tkinter  import *
 import pygame as 音效播放模块
 import tkinter as 视窗模块
 import tkinter.messagebox
-import threading
+import threading as 多线程模块
 from PIL import Image, ImageTk
-import cv2
-import webbrowser
-import time
+import cv2 as 图像处理模块
+import time as 时间模块
 import sys
-#from os import environ
-#environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 #########初始化##########
 窗体= 视窗模块.Tk()
-窗体.geometry("520x495")#窗口大小
+窗体.geometry("520x490")#窗口大小
 窗体.title('幸运之神V5.0--抽签助手')#标题名称
 窗体.resizable(False,False)#窗口大小不能改变
 窗体.iconbitmap('./main.ico')#窗口图标
@@ -69,6 +68,10 @@ import sys
 未处理图片 = [None]
 路径 = '.\\picture\\gallery1\\'
 人数 = []
+#读取文本文档内容
+with open(r'文字显示内容.txt', 'r', encoding='UTF-8') as 文本文档内容:
+    文本文档数据 = 文本文档内容.read().splitlines()
+文字框列表 = list(文本文档数据)
 #生成人数列表初始值
 人数.clear()
 for i in range(1,34):
@@ -107,22 +110,28 @@ def 音效开始播放():
 def 音效停止播放():
     音效播放模块.mixer.music.stop()
 
+def 随机选择文字():
+    global 文字框列表
+    文字选择 = 随机模块.choice(文字框列表)
+    文字显示框['text']=文字选择
+
 def 快速抽签():
+        随机选择文字()
         status["foreground"] = 'green'
-        time.sleep(0.1)
+        时间模块.sleep(0.1)
         快速抽签和单班抽签人数 = int(human.get())
-        人数选择 = random.randrange(1,快速抽签和单班抽签人数+1)#这个地方一定要加一
+        人数选择 = 随机模块.randrange(1,快速抽签和单班抽签人数+1)#这个地方一定要加一
         countbar['text']=人数选择
         路径名称 = 路径 + str(人数选择) + '.jpg'
-        第一次处理后的图片 = cv2.imread(路径名称)
-        第二次处理后的图片 = Image.fromarray(cv2.cvtColor(第一次处理后的图片,cv2.COLOR_BGR2RGB))
+        第一次处理后的图片 = 图像处理模块.imread(路径名称)
+        第二次处理后的图片 = Image.fromarray(图像处理模块.cvtColor(第一次处理后的图片,图像处理模块.COLOR_BGR2RGB))
         未处理图片[0] = ImageTk.PhotoImage(image = 第二次处理后的图片)
         photos.config(image=未处理图片[0])
         窗体.update_idletasks()
         status["foreground"] = 'red'
 
 def 开始单班抽签 ():
-    多线程模式=threading.Thread(target=单班抽签)
+    多线程模式=多线程模块.Thread(target=单班抽签)
     多线程模式.start()
     音效开始播放()
     status["foreground"] = 'green'
@@ -136,7 +145,7 @@ def 无重开始控制():
     if len(set(人数))== 0:
         视窗模块.messagebox.showinfo("提示", "剩余人数为零，无法抽签，请重置人数数量！")
     else:
-        a=threading.Thread(target=无重复抽签)
+        a=多线程模块.Thread(target=无重复抽签)
         a.start()
         音效开始播放()
         status["foreground"] = 'green'
@@ -149,11 +158,11 @@ def 无重结束控制 ():
      窗体.flag = False
      音效停止播放()
      status["foreground"] = 'red'
-     人数选择 = int(random.choice(人数))
+     人数选择 = int(随机模块.choice(人数))
      countbar['text']=人数选择
      路径名称 = 路径 + str(人数选择) + '.jpg'
-     第一次处理后的图片 = cv2.imread(路径名称)
-     第二次处理后的图片 = Image.fromarray(cv2.cvtColor(第一次处理后的图片,cv2.COLOR_BGR2RGB))
+     第一次处理后的图片 = 图像处理模块.imread(路径名称)
+     第二次处理后的图片 = Image.fromarray(图像处理模块.cvtColor(第一次处理后的图片,图像处理模块.COLOR_BGR2RGB))
      未处理图片[0] = ImageTk.PhotoImage(image = 第二次处理后的图片)
      photos.config(image=未处理图片[0])
      窗体.update_idletasks()
@@ -231,6 +240,27 @@ mode.add_command(label= str('瞬间抽签'),
 mode.add_command(label= str('无重复抽签'),
                  command = changeto3
                  )
+mode.add_separator()
+
+文字显示框 = 视窗模块.Message(窗体,
+                    anchor='s',
+                    font=('黑体', 35),
+                    bd=10,
+                    text = '',
+                    )
+文字显示框.place(x=525, y=10, width=250, height=455)
+
+
+def 显示文字框():
+    窗体.update()
+    if 窗体.winfo_width() == 520:
+        窗体.geometry("780x470")
+    elif 窗体.winfo_width() == 780:
+        窗体.geometry("520x470")
+
+mode.add_command(label= str('文字显示开关'),
+                 command = 显示文字框 
+                 )
 menu0.add_cascade(label='模式',menu=mode)#一级菜单名称
 
 #图库菜单
@@ -294,21 +324,11 @@ soundeffects.add_command(label= str('音效5'),
 menu0.add_cascade(label='音效',menu=soundeffects)
 
 #关于菜单
-#此模块无bug
-'''
-def leadtoweb():
-    webbrowser.open("http://www.baidu.com", new=0)
-'''
-def juanzeng():
-    视窗模块.messagebox.showinfo('捐赠','支付宝账户：13601218240（这不是作者的手机号！！！）')
+def 关于():
+    视窗模块.messagebox.showinfo('关于作者','本程序由伟大的李一田倾力制作')
 about=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
-'''
-about.add_command(label=str('官方网站'),
-                     command = leadtoweb
-                     )
-'''
-about.add_command(label=str('捐赠'),
-                     command = juanzeng
+about.add_command(label=str('关于作者'),
+                     command = 关于
                      )
 menu0.add_cascade(label='关于',menu=about)
     
@@ -458,12 +478,13 @@ def 单班抽签 ():
      窗体.flag=True
      global 路径
      while 窗体.flag:
+        随机选择文字()
         快速抽签和单班抽签人数 = int(human.get())
-        人数选择 = random.randrange(1,快速抽签和单班抽签人数+1)#这个地方一定要加一
+        人数选择 = 随机模块.randrange(1,快速抽签和单班抽签人数+1)#这个地方一定要加一
         countbar['text']=人数选择
         路径名称 = 路径 + str(人数选择) + '.jpg'
-        第一次处理后的图片 = cv2.imread(路径名称)
-        第二次处理后的图片 = Image.fromarray(cv2.cvtColor(第一次处理后的图片,cv2.COLOR_BGR2RGB))
+        第一次处理后的图片 = 图像处理模块.imread(路径名称)
+        第二次处理后的图片 = Image.fromarray(图像处理模块.cvtColor(第一次处理后的图片,图像处理模块.COLOR_BGR2RGB))
         未处理图片[0] = ImageTk.PhotoImage(image = 第二次处理后的图片)
         photos.config(image=未处理图片[0])
         窗体.update_idletasks()
@@ -473,25 +494,15 @@ def 无重复抽签():
     窗体.flag=True
     global 路径
     while 窗体.flag:
-        人数选择 = int(random.choice(人数))
+        随机选择文字()
+        人数选择 = int(随机模块.choice(人数))
         countbar['text']=人数选择
         路径名称 = 路径 + str(人数选择) + '.jpg'
-        第一次处理后的图片 = cv2.imread(路径名称)
-        第二次处理后的图片 = Image.fromarray(cv2.cvtColor(第一次处理后的图片,cv2.COLOR_BGR2RGB))
+        第一次处理后的图片 = 图像处理模块.imread(路径名称)
+        第二次处理后的图片 = Image.fromarray(图像处理模块.cvtColor(第一次处理后的图片,图像处理模块.COLOR_BGR2RGB))
         未处理图片[0] = ImageTk.PhotoImage(image = 第二次处理后的图片)
         photos.config(image=未处理图片[0])
         窗体.update_idletasks()
-
-#快捷键
-def kaishi(event):
-    开始单班抽签()
-
-def tingzhi(event):
-    结束单班抽签()
-#TODO改快捷键，防止调用快捷键的时候触发人数调整
-窗体.bind_all("<KeyPress-Up>", kaishi)
-窗体.bind_all("<KeyPress-Down>", tingzhi)
-
 
 窗体['menu']=menu0#窗口窗体的menu是menu0
 窗体.mainloop()
