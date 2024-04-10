@@ -20,7 +20,7 @@ root.resizable(False,False)#窗口大小不能改变
 root.iconbitmap('./main.ico')#窗口图标
 root.flag = True
 img = [None]
-path = '.\\picture\\gallery1\\'
+path = '.\\picture\\gallery1\\' 
   
 ###########################################################
 #########################交互界面###########################
