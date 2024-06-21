@@ -1,6 +1,6 @@
 '''
 -*-coding:UTF-8-*-
-环境：python3.6.2_32bit
+enviro: python3.6.2_32bit
 程序功能：抽签助手
 
 
@@ -159,10 +159,10 @@ def 无重结束控制 ():
      root.update_idletasks()
      人数.remove(xuanze)
      剩余人数['text']="剩余"+str(len(set(人数)))+"人"
-     
+
 
 #########标题##########
-biaoti = tk.Label(root, 
+biaoti = tk.Label(root,
             text='幸运之神V5.0',    # 标签的文字
             font=('Arial', 48),     # 字体和字体大小(待改动）
             foreground='lightskyblue',  #这个颜色超好看，建议不要改
@@ -199,7 +199,7 @@ def changeto1():
     startb.place(x=410, y=295, width=100, height=50)
     stopb.place(x=410, y=355, width=100, height=50)
     exitb.place(x=410, y=415, width=100, height=50)
- 
+
 def changeto2():
     startb.place_forget()
     stopb.place_forget()
@@ -219,7 +219,7 @@ def changeto3():
     norestop.place(x=410, y=355, width=100, height=50)
     resetb.place(x=410, y=415, width=100, height=50)
     剩余人数.place(x=440, y=260, width=51, height=16)
-    
+
 mode=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
 
 mode.add_command(label= str('单班抽签'),
@@ -273,7 +273,7 @@ gallery.add_command(label= str('图库5'),
 
 menu0.add_cascade(label='图库',menu=gallery)
 
-#音效菜单 
+#音效菜单
 soundeffects=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
 soundeffects.add_command(label= str('音效1'),
                  command = sound1
@@ -311,7 +311,7 @@ about.add_command(label=str('捐赠'),
                      command = juanzeng
                      )
 menu0.add_cascade(label='关于',menu=about)
-    
+
 
 ##########计数器##########
 countbar = tk.Label(root,
@@ -334,7 +334,7 @@ fastb = tk.Button(root,
                         command=fastchoose,
                         )
 #开始
-    
+
 startb = tk.Button(root,
                         text='开始',
                         font=('黑体', 20),
@@ -342,7 +342,7 @@ startb = tk.Button(root,
                         )
 startb.place(x=410, y=295, width=100, height=50)
 
-#停止     
+#停止
 stopb = tk.Button(root,
                         text='停止',
                         font=('黑体', 20),
@@ -365,7 +365,7 @@ norestart = tk.Button(root,
                         command=无重开始控制,
                         )
 startb.place(x=410, y=295, width=100, height=50)
-    
+
 norestop = tk.Button(root,
                         text='停止',
                         font=('黑体', 20),
@@ -427,7 +427,7 @@ if var.get() == 1:
     py.mixer.music.set_volume(1.0)
 else:
     py.mixer.music.set_volume(0)
-    
+
 def yinxiaokaiguan():
     if var.get() == 1:
         py.mixer.music.set_volume(1.0)
@@ -497,6 +497,3 @@ root.bind_all("<KeyPress-Down>", tingzhi)
 
 root['menu']=menu0#窗口root的menu是menu0
 root.mainloop()
-
-
-
