@@ -1,5 +1,5 @@
 <div align="center">
-<img src = main.ico width="50%" height="auto">
+<img src = main.ico width="40%" height="auto">
 <h2>
  LuckyGod, the God's first choice
 
