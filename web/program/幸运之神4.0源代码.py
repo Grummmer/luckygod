@@ -2,8 +2,8 @@
 
 #我也不知道为什么要import这么多插件……
 import random
-from tkinter  import *
-import pygame as py
+from tkinter import *
+#import pygame as py
 import tkinter as tk
 import tkinter.messagebox
 import threading
@@ -20,12 +20,12 @@ root.resizable(False,False)#窗口大小不能改变
 root.iconbitmap('./main.ico')#窗口图标
 root.flag = True
 img = [None]
-path = '.\\picture\\gallery1\\' 
-  
+path = '.\\picture\\gallery1\\'
+
 ###########################################################
 #########################交互界面###########################
 ###########################################################
-py.mixer.init()
+#py.mixer.init()
 musound = r'.\music\music1.mp3'
 
 def sound1():
@@ -50,11 +50,12 @@ def sound5():
 
 def soundstart():
     global musound
-    py.mixer.music.load(musound)
-    py.mixer.music.play(-1,0)
+    #py.mixer.music.load(musound)
+    #py.mixer.music.play(-1,0)
 
 def soundstop():
-    py.mixer.music.stop()
+    pass
+    #py.mixer.music.stop()
 
 def fastchoose():
         status["foreground"] = 'green'
@@ -80,9 +81,9 @@ def statuscolorred ():
      root.flag = False
      soundstop()
      status["foreground"] = 'red'
-   
+
 #########标题##########
-biaoti = tk.Label(root, 
+biaoti = tk.Label(root,
             text='幸运之神V4.0',    # 标签的文字
             font=('Arial', 48),     # 字体和字体大小(待改动）
             foreground='lightskyblue',  #这个颜色超好看，建议不要改
@@ -121,7 +122,7 @@ def changeto2():
     stopb.place_forget()
     exitb.place_forget()
     fastb.place(x=410, y=310, width=100, height=150)
-    
+
 mode=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
 
 mode.add_command(label= str('单班抽签'),
@@ -172,7 +173,7 @@ gallery.add_command(label= str('图库5'),
 
 menu0.add_cascade(label='图库',menu=gallery)
 
-#音效菜单 
+#音效菜单
 soundeffects=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
 soundeffects.add_command(label= str('音效1'),
                  command = sound1
@@ -210,7 +211,7 @@ about.add_command(label=str('！！！捐赠！！！'),
                      command = juanzeng
                      )
 menu0.add_cascade(label='关于',menu=about)
-    
+
 
 ##########计数器##########
 countbar = tk.Label(root,
@@ -235,7 +236,7 @@ fastb = tk.Button(root,
 fastb.place(x=410, y=310, width=100, height=150)
 fastb.place_forget()
 #开始
-    
+
 startb = tk.Button(root,
                         text='开始',
                         font=('黑体', 20),
@@ -243,7 +244,7 @@ startb = tk.Button(root,
                         )
 startb.place(x=410, y=310, width=100, height=50)
 
-#停止     
+#停止
 stopb = tk.Button(root,
                         text='停止',
                         font=('黑体', 20),
@@ -292,25 +293,25 @@ dognumber.place(x=440, y=210, width=70, height=20)
 ##########音效##########
 #此模块无bug
 var = IntVar()
-if var.get() == 1:
-    py.mixer.music.set_volume(1.0)
-else:
-    py.mixer.music.set_volume(0)
-    
+#if var.get() == 1:
+    #py.mixer.music.set_volume(1.0)
+#else:
+    #py.mixer.music.set_volume(0)
+
 def yinxiaokaiguan():
-    if var.get() == 1:
-        py.mixer.music.set_volume(1.0)
-    else:
-        py.mixer.music.set_volume(0)
+    #if var.get() == 1:
+        #py.mixer.music.set_volume(1.0)
+    #else:
+        #py.mixer.music.set_volume(0)
 
-
+    '''
 soundeffectchoose = tk.Checkbutton(root,
                                    text='音效',
                                    variable=var,
                                    command=yinxiaokaiguan
                                    )
 soundeffectchoose.place(x=440, y=270, width=51, height=16)
-
+'''
 
 
 ###########作者##########
@@ -350,7 +351,7 @@ def oneclass ():
         img[0] = ImageTk.PhotoImage(image = im1)
         photos.config(image=img[0])
         root.update_idletasks()
-        
+
 
 #快捷键
 def kaishi(event):
@@ -365,6 +366,3 @@ root.bind_all("<KeyPress-Down>", tingzhi)
 
 root['menu']=menu0#窗口root的menu是menu0
 root.mainloop()
-
-
-
