@@ -1,14 +1,18 @@
 '''
 -*-coding:UTF-8-*-
-enviro: python3.6.2_32bit
-程序功能：抽签助手
+enviro: python3.12.4
+Program function: This program is a lucky draw assistant, which can be used in class, party, etc.
 
 
-本程序由伟大的李一田倾力制作
+This program is made by the greatest Eden Li, and the program is open source.
+If you want to distribute this program, please contact the author.
+If you want to use this program for commercial purposes, please contact the author.
+If you want to use this program for illegal purposes, JUST DO IT and GOOD LUCK BRO.
+
 '''
 '''
 ------------------------------------------------------------------
-|☺幸运之神5.0--抽签助手                                      |-|口|X|
+|☺LuckyGod5.0 - Lottery Assistant                          |-|口|X|
 ------------------------------------------------------------------
 |文件|模式|图库|音效|关于|                                          |
 ------------------------------------------------------------------
@@ -44,7 +48,6 @@ enviro: python3.6.2_32bit
 ||__________________________________________________|   ----     |
 |________________________________________________________________|
 '''
-#我也不知道为什么要import这么多插件……
 import random
 from tkinter  import *
 import pygame as py
@@ -59,59 +62,59 @@ import sys
 #from os import environ
 #environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
-#########初始化##########
+#########INIT##########
 root= tk.Tk()
-root.geometry("520x495")#窗口大小
-root.title('幸运之神V5.0--抽签助手')#标题名称
-root.resizable(False,False)#窗口大小不能改变
-root.iconbitmap('./main.ico')#窗口图标
+root.geometry("520x495")#The size of the window
+root.title('LuckyGod5.0 - Lottery Assistant')#The title of the window
+root.resizable(False,False)#The window can't be resized
+root.iconbitmap('main.ico')#The icon of the window
 root.flag = True
 img = [None]
-path = '.\\picture\\gallery1\\'
-人数 = []
-#生成人数列表初始值
-人数.clear()
+path = 'picture/gallery1/'
+number_of_people = []
+#The number of people
+number_of_people.clear()
 for i in range(1,34):
-    人数.append(i)
+    number_of_people.append(i)
 ###########################################################
 #########################交互界面###########################
 ###########################################################
 py.mixer.init()
-musound = r'.\music\music1.mp3'
+musound = r'music/music1.mp3'
 
 def sound1():
     global musound
-    musound = r'.\music\music1.mp3'
+    musound = r'music/music1.mp3'
 
 def sound2():
     global musound
-    musound = r'.\music\music2.mp3'
+    musound = r'music/music2.mp3'
 
 def sound3():
     global musound
-    musound = r'.\music\music3.mp3'
+    musound = r'music/music2.mp3'
 
 def sound4():
     global musound
-    musound = r'.\music\music4.mp3'
+    musound = r'music/music2.mp3'
 
 def sound5():
     global musound
-    musound = r'.\music\music5.mp3'
+    musound = r'music/music2.mp3'
 
-def soundstart():
+def sound_start():
     global musound
     py.mixer.music.load(musound)
     py.mixer.music.play(-1,0)
 
-def soundstop():
+def sound_stop():
     py.mixer.music.stop()
 
-def fastchoose():
+def fast_mode():
         status["foreground"] = 'green'
         time.sleep(0.1)
         people = int(human.get())
-        xuanze = random.randrange(1,people+1)#这个地方一定要加一
+        xuanze = random.randrange(1,people+1)#This place must be added one
         countbar['text']=xuanze
         filename = path + str(xuanze) + '.jpg'
         img1 = cv2.imread(filename)
@@ -121,24 +124,24 @@ def fastchoose():
         root.update_idletasks()
         status["foreground"] = 'red'
 
-def statuscolorgreen ():
+def status_colour_green():
     t=threading.Thread(target=oneclass)
     t.start()
-    soundstart()
+    sound_start()
     status["foreground"] = 'green'
 
-def statuscolorred ():
+def status_colour_red():
      root.flag = False
-     soundstop()
+     sound_stop()
      status["foreground"] = 'red'
 
-def 无重开始控制():
-    if len(set(人数))== 0:
-        tk.messagebox.showinfo("提示", "剩余人数为零，无法抽签，请重置人数数量！")
+def no_duplication_mode_start():
+    if len(set(number_of_people))== 0:
+        tk.messagebox.showinfo("Information", "The number of people is 0, please reset the number of people.")
     else:
-        a=threading.Thread(target=无重复抽签)
+        a=threading.Thread(target=no_duplication_mode)
         a.start()
-        soundstart()
+        sound_start()
         status["foreground"] = 'green'
 
 剩余人数 = tk.Label(root,
@@ -147,9 +150,9 @@ def 无重开始控制():
 剩余人数.place_forget()
 def 无重结束控制 ():
      root.flag = False
-     soundstop()
+     sound_stop()
      status["foreground"] = 'red'
-     xuanze = int(random.choice(人数))
+     xuanze = int(random.choice(number_of_people))
      countbar['text']=xuanze
      filename = path + str(xuanze) + '.jpg'
      img1 = cv2.imread(filename)
@@ -157,37 +160,37 @@ def 无重结束控制 ():
      img[0] = ImageTk.PhotoImage(image = im1)
      photos.config(image=img[0])
      root.update_idletasks()
-     人数.remove(xuanze)
-     剩余人数['text']="剩余"+str(len(set(人数)))+"人"
+     number_of_people.remove(xuanze)
+     剩余人数['text']="剩余"+str(len(set(number_of_people)))+"人"
 
 
 #########标题##########
 biaoti = tk.Label(root,
-            text='幸运之神V5.0',    # 标签的文字
-            font=('Arial', 48),     # 字体和字体大小(待改动）
-            foreground='lightskyblue',  #这个颜色超好看，建议不要改
-            width=15, height=2  # 标签长宽（待改动）
+            text='LuckyGod V5.0',    # The title of the window
+            font=('Arial', 48),     # The font of the title
+            foreground='lightskyblue',  #The color of the title
+            width=15, height=2  # The size of the title
               )
 biaoti.place(x=10, y=10, width=400, height=60)
 
 
 ##########菜单##########
-menu0=Menu(root)#参数是父级控件
+menu0=Menu(root)#The menu of the window
 
 
 #文件菜单
-file=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
+file=Menu(menu0,tearoff=False)#Define the menu name that can't be dragged
 file.add_command(label= str('开始      Up'),
-                 command = statuscolorgreen
+                 command = status_colour_green
                  )
 file.add_command(label= str('停止      Down'),
-                 command = statuscolorred
+                 command = status_colour_red
                  )
 file.add_command(label= str('退出'),
                  command = sys.exit
                  )
 
-menu0.add_cascade(label='文件',menu=file)#在menu0中添加一个label为项目的级联菜单
+menu0.add_cascade(label='文件',menu=file)
 
 #模式菜单
 def changeto1():
@@ -236,23 +239,23 @@ menu0.add_cascade(label='模式',menu=mode)#一级菜单名称
 #图库菜单
 def picture1():
       global path
-      path = '.\\picture\\gallery1\\'
+      path = 'picture/gallery1/'
 
 def picture2():
       global path
-      path = '.\\picture\\gallery2\\'
+      path = 'picture/gallery2/'
 
 def picture3():
       global path
-      path = '.\\picture\\gallery3\\'
+      path = 'picture/gallery3/'
 
 def picture4():
       global path
-      path = '.\\picture\\gallery4\\'
+      path = 'picture/gallery4/'
 
 def picture5():
       global path
-      path = '.\\picture\\gallery5\\'
+      path = 'picture/gallery5/'
 
 gallery=Menu(menu0,tearoff=False)#定义不可拖移菜单名称
 gallery.add_command(label= str('图库1'),
@@ -331,14 +334,14 @@ countbar.place(x=410, y=10, width=100, height=60)
 fastb = tk.Button(root,
                         text='抽签',
                         font=('黑体', 20),
-                        command=fastchoose,
+                        command=fast_mode,
                         )
 #开始
 
 startb = tk.Button(root,
                         text='开始',
                         font=('黑体', 20),
-                        command=statuscolorgreen,
+                        command=status_colour_green,
                         )
 startb.place(x=410, y=295, width=100, height=50)
 
@@ -346,7 +349,7 @@ startb.place(x=410, y=295, width=100, height=50)
 stopb = tk.Button(root,
                         text='停止',
                         font=('黑体', 20),
-                       command=statuscolorred
+                       command=status_colour_red
                         )
 stopb.place(x=410, y=355, width=100, height=50)
 
@@ -362,7 +365,7 @@ exitb.place(x=410, y=415, width=100, height=50)
 norestart = tk.Button(root,
                         text='开始',
                         font=('黑体', 20),
-                        command=无重开始控制,
+                        command=no_duplication_mode_start,
                         )
 startb.place(x=410, y=295, width=100, height=50)
 
@@ -398,10 +401,10 @@ label_renshu = tk.Label(root,
 label_renshu.place(x=410, y=210, width=30, height=20)
 
 def 调整人数():
-    人数.clear()
+    number_of_people.clear()
     for i in range(1,int(human.get())+1):
-        人数.append(i)
-    剩余人数['text']="剩余"+str(len(set(人数)))+"人"
+        number_of_people.append(i)
+    剩余人数['text']="剩余"+str(len(set(number_of_people)))+"人"
 
 #重置
 #TODO 重置command
@@ -471,11 +474,11 @@ def oneclass ():
         root.update_idletasks()
 
 ##########无重复抽签############
-def 无重复抽签():
+def no_duplication_mode():
     root.flag=True
     global path
     while root.flag:
-        xuanze = int(random.choice(人数))
+        xuanze = int(random.choice(number_of_people))
         countbar['text']=xuanze
         filename = path + str(xuanze) + '.jpg'
         img1 = cv2.imread(filename)
@@ -486,10 +489,10 @@ def 无重复抽签():
 
 #快捷键
 def kaishi(event):
-    statuscolorgreen()
+    status_colour_green()
 
 def tingzhi(event):
-    statuscolorred()
+    status_colour_red()
 #TODO改快捷键，防止调用快捷键的时候触发人数调整
 root.bind_all("<KeyPress-Up>", kaishi)
 root.bind_all("<KeyPress-Down>", tingzhi)
